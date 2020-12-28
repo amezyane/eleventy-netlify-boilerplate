@@ -44,6 +44,15 @@ module.exports = function(eleventyConfig) {
     }, {});
   });
 
+  // Add a collection for events
+  // We gather all Markdown files in the posts directory
+  // And filter out anything that doesn't have a location specified
+  eleventyConfig.addCollection("events", (collection) =>
+    collection.getFilteredByGlob("posts/*.md").filter( post => {
+        return ( post.data.location ? post : false );
+    })
+  );
+
   // Date formatting (human readable)
   eleventyConfig.addFilter("readableDate", dateObj => {
     return DateTime.fromJSDate(dateObj).toFormat("dd LLL yyyy");
